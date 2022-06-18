@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\json-server"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "json-server",
+		"liveServer.settings.port": 5501
+	}
+}
