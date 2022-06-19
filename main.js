@@ -1,3 +1,16 @@
+// 1. Front-end: Xây dựng giao diện người dùng
+// 2. Back-end: Xây dựng logic xử lý + cơ sở dữ liệu
+// API (URL) lấy nội dung được lưu trữ trong phía BE -> application programing interface
+// API là cổng giao tiếp giữa các phần mềm
+// fetch cũng chính là promise
+// fetch trả lại 1 cái stream, luồng dữ liệu được trả về
+
+
+
+// Backend -> API (backend cung cấp url) -> Fetch -> JSON/XML -> JSON.parse -> Javascript types
+
+// -> Render ra giao diện với HTML
+
 //  package.json quản lý thư viện mình cài
 //  -Json server: API Server (Fake) / Mock API
 //  -CRUD
@@ -68,6 +81,7 @@ function creatCourse(data,callback){
         response.json();
     })
     .then(callback)
+    
 }
 
 function updateCourse(id,data,callback){
@@ -84,9 +98,13 @@ function updateCourse(id,data,callback){
     })
     .then(callback)
     // .then(function(){getCourses(renderCourses)})
-    .then(console.log(callback))
-    .then(console.log(data))
+    
 }
+function resetCourse(){
+    document.querySelector('input[name="name"]').value = '';
+    document.querySelector('input[name="description"]').value = '';
+}
+
 
 function handleUpdateCourse(id){
     document.querySelector('input[name="name"]').value = 
@@ -95,13 +113,11 @@ function handleUpdateCourse(id){
     document.querySelector('.course-description-' + id).textContent
 
     
-    document.querySelector('#create').id = 'update';
-	document.querySelector('#update').textContent = 'update'
+    document.querySelector('#create').style.display = 'none';
+	document.querySelector('#update').style.display = 'inline-block';
     
     var updateBtn = document.querySelector('#update');
 	
-
-        
     updateBtn.onclick = function() {
         var name = document.querySelector('input[name="name"]').value;
         var description = document.querySelector('input[name="description"]').value;
@@ -116,15 +132,19 @@ function handleUpdateCourse(id){
             formData, 
             function() {
                 getCourses(renderCourses);
-                
+                resetCourse()
             });
 
         document.querySelector('input[name="name"]').value = '';
         
         document.querySelector('input[name="description"]').value = '';
 
-        document.querySelector('#update').id = 'create';
-        document.querySelector('#create').textContent = 'create';
+        document.querySelector('#create').style.display = 'inline-block';
+	    
+        document.querySelector('#update').style.display = 'none';
+        
+        // document.querySelector('#update').id = 'create';
+        // document.querySelector('#create').textContent = 'create';
 
         
             
@@ -190,6 +210,7 @@ function handleCreateForm(){
         }
         creatCourse(formData,function(){
             getCourses(renderCourses)
+            resetCourse()
         })
     }
 }
