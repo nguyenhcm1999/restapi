@@ -52,13 +52,15 @@ var courseApi = 'http://localhost:3000/courses'
 function start() {
     getCourses(renderCourses);
     
+    //handleCreateForm vẫn chạy khi start()
     handleCreateForm();
+    
 }
 
 start();
 
 // Functions
-// Get để hiển thị
+// nó có method Get để hiển thị, nên không cần thêm
 function getCourses(callback) { 
     fetch(courseApi)
     .then(function(response){
@@ -81,7 +83,6 @@ function creatCourse(data,callback){
         response.json();
     })
     .then(callback)
-    
 }
 
 function updateCourse(id,data,callback){
@@ -117,7 +118,6 @@ function handleUpdateCourse(id){
 	document.querySelector('#update').style.display = 'inline-block';
     
     var updateBtn = document.querySelector('#update');
-	
     updateBtn.onclick = function() {
         var name = document.querySelector('input[name="name"]').value;
         var description = document.querySelector('input[name="description"]').value;
@@ -127,34 +127,17 @@ function handleUpdateCourse(id){
             description: description
         };
 
-        updateCourse(
-            id, 
-            formData, 
-            function() {
-                getCourses(renderCourses);
-                resetCourse()
+        updateCourse(id, formData, function() {
+            getCourses(renderCourses);
+            resetCourse()
             });
 
         document.querySelector('input[name="name"]').value = '';
-        
         document.querySelector('input[name="description"]').value = '';
-
         document.querySelector('#create').style.display = 'inline-block';
-	    
         document.querySelector('#update').style.display = 'none';
-        
-        // document.querySelector('#update').id = 'create';
-        // document.querySelector('#create').textContent = 'create';
-
-        
-            
-    }
-        
+    }      
 }
-
-
-
-
 
 function handleDeleteCourse(id){
     var options = {
@@ -188,7 +171,7 @@ function renderCourses(courses) {
         return `
             <li class="course-item-${course.id}">
                 <h4 class="course-name-${course.id}">${course.name}</h4>
-                <h4 class="course-description-${course.id}">${course.description}</h4>
+                <p class="course-description-${course.id}">${course.description}</p>
                 <button onclick="handleDeleteCourse(${course.id})">Xóa</button>
                 <button onclick="handleUpdateCourse(${course.id})">Sửa</button>
             </li>
@@ -197,10 +180,24 @@ function renderCourses(courses) {
     listCoursesBlock.innerHTML = htmls.join('');
 }
 
+function creatCourse(data,callback){
+    var options = {
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json'
+        },
+        body: JSON.stringify(data)
+    }
+    fetch(courseApi, options)
+    .then(function(response){
+        response.json();
+    })
+    .then(callback)
+}
 
 function handleCreateForm(){
-    var creatBtn =document.querySelector('#create');
-    creatBtn.onclick = function(){
+    var createBtn =document.querySelector('#create');
+    createBtn.onclick = function(){
         var name = document.querySelector('input[name="name"]').value;
         var description = document.querySelector('input[name="description"]').value
         
