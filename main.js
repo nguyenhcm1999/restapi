@@ -38,7 +38,8 @@ var courseApi = 'http://localhost:3000/courses'
 
 function start() {
     getCourses(renderCourses);
-    handleCreatForm();
+    
+    handleCreateForm();
 }
 
 start();
@@ -82,6 +83,9 @@ function updateCourse(id,data,callback){
         response.json();
     })
     .then(callback)
+    // .then(function(){getCourses(renderCourses)})
+    .then(console.log(callback))
+    .then(console.log(data))
 }
 
 function handleUpdateCourse(id){
@@ -106,6 +110,7 @@ function handleUpdateCourse(id){
             name: name,
             description: description
         };
+
         updateCourse(
             id, 
             formData, 
@@ -113,7 +118,6 @@ function handleUpdateCourse(id){
                 getCourses(renderCourses);
                 
             });
-        
 
         document.querySelector('input[name="name"]').value = '';
         
@@ -121,6 +125,8 @@ function handleUpdateCourse(id){
 
         document.querySelector('#update').id = 'create';
         document.querySelector('#create').textContent = 'create';
+
+        
             
     }
         
@@ -172,7 +178,7 @@ function renderCourses(courses) {
 }
 
 
-function handleCreatForm(){
+function handleCreateForm(){
     var creatBtn =document.querySelector('#create');
     creatBtn.onclick = function(){
         var name = document.querySelector('input[name="name"]').value;
