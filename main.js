@@ -69,19 +69,61 @@ function creatCourse(data,callback){
     .then(callback)
 }
 
-function updateCourse(){
+function updateCourse(id,data,callback){
     var options = {
-        method:'UPDATE',
+        method:'PUT',
         headers:{
             'Content-Type':'application/json'
         },
-        
+        body: JSON.stringify(data)
     }
     fetch(courseApi +'/'+ id, options)
     .then(function(response){
         response.json();
     })
+    .then(callback)
 }
+
+function handleUpdateCourse(id){
+    document.querySelector('input[name="name"]').value = 
+    document.querySelector('.course-name-' + id).textContent
+	document.querySelector('input[name="description"]').value = 
+    document.querySelector('.course-description-' + id).textContent
+
+
+    document.querySelector('#create').id = 'update';
+	document.querySelector('#update').textContent = 'Update'
+    
+    var updateBtn = document.querySelector('#update');
+	
+
+        
+        updateBtn.onclick = function() {
+            var name = document.querySelector('input[name="name"]').value;
+            var description = document.querySelector('input[name="description"]').value;
+            
+            var formData = {
+                name: name,
+                description: description
+            };
+            updateCourse(
+                id, 
+                formData, 
+                function() {
+                    getCourses(renderCourses);
+                    
+                });
+    
+    
+                document.querySelector('input[name="name"]').value = '';
+                document.querySelector('input[name="description"]').value = '';
+        }
+    
+}
+
+
+
+
 
 function handleDeleteCourse(id){
     var options = {
@@ -114,10 +156,10 @@ function renderCourses(courses) {
     var htmls = courses.map(function(course){
         return `
             <li class="course-item-${course.id}">
-                <h4>${course.name}</h4>
-                <h4>${course.description}</h4>
+                <h4 class="course-name-${course.id}">${course.name}</h4>
+                <h4 class="course-description-${course.id}">${course.description}</h4>
                 <button onclick="handleDeleteCourse(${course.id})">Xóa</button>
-                <button onclick="updateCourse(${course.id})">Sửa</button>
+                <button onclick="handleUpdateCourse(${course.id})">Sửa</button>
             </li>
         `
     })
@@ -126,7 +168,7 @@ function renderCourses(courses) {
 
 
 function handleCreatForm(){
-    var creatBtn =document.querySelector('#creat');
+    var creatBtn =document.querySelector('#create');
     creatBtn.onclick = function(){
         var name = document.querySelector('input[name="name"]').value;
         var description = document.querySelector('input[name="description"]').value
@@ -140,3 +182,4 @@ function handleCreatForm(){
         })
     }
 }
+
