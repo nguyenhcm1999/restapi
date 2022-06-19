@@ -90,35 +90,40 @@ function handleUpdateCourse(id){
 	document.querySelector('input[name="description"]').value = 
     document.querySelector('.course-description-' + id).textContent
 
-
+    
     document.querySelector('#create').id = 'update';
-	document.querySelector('#update').textContent = 'Update'
+	document.querySelector('#update').textContent = 'update'
     
     var updateBtn = document.querySelector('#update');
 	
 
         
-        updateBtn.onclick = function() {
-            var name = document.querySelector('input[name="name"]').value;
-            var description = document.querySelector('input[name="description"]').value;
+    updateBtn.onclick = function() {
+        var name = document.querySelector('input[name="name"]').value;
+        var description = document.querySelector('input[name="description"]').value;
+        
+        var formData = {
+            name: name,
+            description: description
+        };
+        updateCourse(
+            id, 
+            formData, 
+            function() {
+                getCourses(renderCourses);
+                
+            });
+        
+
+        document.querySelector('input[name="name"]').value = '';
+        
+        document.querySelector('input[name="description"]').value = '';
+
+        document.querySelector('#update').id = 'create';
+        document.querySelector('#create').textContent = 'create';
             
-            var formData = {
-                name: name,
-                description: description
-            };
-            updateCourse(
-                id, 
-                formData, 
-                function() {
-                    getCourses(renderCourses);
-                    
-                });
-    
-    
-                document.querySelector('input[name="name"]').value = '';
-                document.querySelector('input[name="description"]').value = '';
-        }
-    
+    }
+        
 }
 
 
