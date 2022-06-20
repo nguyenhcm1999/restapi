@@ -138,8 +138,8 @@ function handleUpdateCourse(id){
             resetCourse()
             });
 
-        document.querySelector('input[name="name"]').value = '';
-        document.querySelector('input[name="description"]').value = '';
+        // document.querySelector('input[name="name"]').value = '';
+        // document.querySelector('input[name="description"]').value = '';
         document.querySelector('#create').style.display = 'inline-block';
         document.querySelector('#update').style.display = 'none';
     }      
@@ -169,7 +169,7 @@ function handleDeleteCourse(id){
 }
 
 
-//createcourse callback chính là rendercourses
+//createcourse callback chính là f rendercourses
 function renderCourses(courses) {
     var listCoursesBlock = 
     document.querySelector('#list-courses')
