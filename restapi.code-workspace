@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\json-server"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "restapi",
+		"liveServer.settings.port": 5501
+	}
+}

@@ -58,7 +58,7 @@ function start() {
 }
 
 start();
-
+// renderCourses sẽ được truyền vào getCourses dưới dạng callback
 // Functions
 // nó có method Get để hiển thị, nên không cần thêm
 function getCourses(callback) { 
@@ -67,22 +67,26 @@ function getCourses(callback) {
        return response.json()
     })
     .then(callback)
-    // .then(console.log(callback))
+    //callback sẽ chạy renderCourses    
 }
 
-function creatCourse(data,callback){
+
+//logic dùng fetch gửi đi 1 yêu cầu với phương thức POST
+
+function createCourse(data,callback){
     var options = {
         method:'POST',
         headers:{
             'Content-Type':'application/json'
         },
+        //gửi đi javascript -> json
         body: JSON.stringify(data)
     }
     fetch(courseApi, options)
     .then(function(response){
         response.json();
     })
-    .then(callback)
+    .then(callback)  
 }
 
 function updateCourse(id,data,callback){
@@ -97,6 +101,7 @@ function updateCourse(id,data,callback){
     .then(function(response){
         response.json();
     })
+    
     .then(callback)
     // .then(function(){getCourses(renderCourses)})
     
@@ -119,9 +124,10 @@ function handleUpdateCourse(id){
     
     var updateBtn = document.querySelector('#update');
     updateBtn.onclick = function() {
+        // khi click lấy ra 2 dữ liệu name và description 
         var name = document.querySelector('input[name="name"]').value;
         var description = document.querySelector('input[name="description"]').value;
-        
+        //gửi đi 1 yêu cầu để tạo mới dữ liệu với phương thức post, dùng thằng fetch
         var formData = {
             name: name,
             description: description
@@ -145,12 +151,10 @@ function handleDeleteCourse(id){
         headers:{
             'Content-Type':'application/json'
         },
-        
     }
     fetch(courseApi +'/'+ id, options)
     .then(function(response){
         response.json();
-        
     })
     .then(function(){
         // Cách này không phải call lại API, gỡ khỏi DOM
@@ -164,6 +168,8 @@ function handleDeleteCourse(id){
     })
 }
 
+
+//createcourse callback chính là rendercourses
 function renderCourses(courses) {
     var listCoursesBlock = 
     document.querySelector('#list-courses')
@@ -172,7 +178,7 @@ function renderCourses(courses) {
             <li class="course-item-${course.id}">
                 <h4 class="course-name-${course.id}">${course.name}</h4>
                 <p class="course-description-${course.id}">${course.description}</p>
-                <button onclick="handleDeleteCourse(${course.id})">Xóa</button>
+                <button id="delete" onclick="handleDeleteCourse(${course.id})">Xóa</button>
                 <button onclick="handleUpdateCourse(${course.id})">Sửa</button>
             </li>
         `
@@ -180,35 +186,26 @@ function renderCourses(courses) {
     listCoursesBlock.innerHTML = htmls.join('');
 }
 
-function creatCourse(data,callback){
-    var options = {
-        method:'POST',
-        headers:{
-            'Content-Type':'application/json'
-        },
-        body: JSON.stringify(data)
-    }
-    fetch(courseApi, options)
-    .then(function(response){
-        response.json();
-    })
-    .then(callback)
-}
 
+
+// tạo handlecreateform xong tạo createCourse
 function handleCreateForm(){
     var createBtn =document.querySelector('#create');
     createBtn.onclick = function(){
+        // alert() test xem chạy được không
+        // khi click lấy ra 2 dữ liệu name và description 
         var name = document.querySelector('input[name="name"]').value;
-        var description = document.querySelector('input[name="description"]').value
-        
+        var description = document.querySelector('input[name="description"]').value;
+        //gửi đi 1 yêu cầu để tạo mới dữ liệu với phương thức post, dùng thằng fetch
         var formData = {
             name: name,
             description: description
         }
-        creatCourse(formData,function(){
+        createCourse(formData,function(){
             getCourses(renderCourses)
             resetCourse()
         })
     }
 }
+
 
