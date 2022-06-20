@@ -203,7 +203,6 @@ function handleCreateForm(){
         }
         createCourse(formData,function(){
             getCourses(renderCourses)
-            resetCourse()
         })
     }
 }
